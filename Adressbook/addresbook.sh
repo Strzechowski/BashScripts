@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 addressesFile="Adresses"
 parameterArray=("Name" "Surname" "Phone" "Email")
 
 readFromUser() {
-  echo "Please provide $1" >&2
+  echo -n "Please provide $1: " >&2
   read input
   if [ -z "${input}" ] ; then 
     echo "$1 can not be empty." >&2
@@ -23,21 +23,21 @@ add() {
 }
 
 search() {
-  #There is a bug 
-  #You are searching not only name and surname but all line
-  echo "Provide Name and Surname of a Person you are looking for:" >&2
+  echo >&2
+  echo -n "Provide Name and Surname of a Person you are looking for: " >&2
   read who
   
-  list=$(grep -n "$who" "$addressesFile") 
+  list=$(awk '{print $1,$2}' "$addressesFile" | grep -n "$who")
   numOfLineInFile=$(echo "$list" | cut -f1 -d':')
   hits=$(echo "$list" | wc -l)
  
   if [ -z "$list" ] ; then 
-    echo "Haven't found anyone. Try Again." >&2
+    echo "### Haven't found anyone. Try Again. ###" >&2
     search
   elif [ $hits -gt 1 ] ; then
-    echo "Found more than one person. Try Again." >&2
-    echo "$list" | cut -f2 -d':' | cut -f1,2 -d' ' >&2
+    echo "### Found more than one person: ###" >&2
+    echo "$list" | cut -f2 -d':' >&2
+    echo "### TRY AGAIN ###." >&2 
     search
   else
     echo "$numOfLineInFile"
@@ -51,7 +51,14 @@ display() {
 
 remove() {
   lineToRemove=${1}
-  sed -i "${lineToRemove}d" "${addressesFile}" 
+  display $lineToRemove
+  echo -n "Are you sure you want to remove this person? [Y/y]: " >&2
+  answer=N
+  read answer
+  if [ "$answer" = "Y" ] || [ "$answer" = "y" ]; then
+    sed -i "${lineToRemove}d" "${addressesFile}" 
+    echo "Usunieto" >&2
+  fi
 }
 
 edit() {
@@ -59,7 +66,7 @@ edit() {
   edit=($(display $1))
   for (( i = 0; i < ${#edit[@]}; i++)) ; do
     echo "${parameterArray[i]}: ${edit[i]}"
-    echo "Do you want to change this parameter? [ N/n to pass ]" 
+    echo -n "Do you want to change this parameter? [ N/n to pass ]: "
     answer=Y
     read answer
     if [ "$answer" != "N" ] && [ "$answer" != "n" ] ; then
@@ -72,33 +79,35 @@ edit() {
   remove $(($1+1))
 }
 
-editWithSearch() {
+searchAndEdit() {
   lineToEdit=$(search)
   edit $lineToEdit 
 }
 
-removeWithSearch() {
+searchAndRemove() {
   lineToRemove=$(search)
   remove $lineToRemove
 }
 
 searchAndDisplay() {
   lineToDisplay=$(search)
+  echo
+  echo "Found: "
   display $lineToDisplay
 }
 
 check="false"
 while [ "$check" == "false" ]; do
   echo 
-  echo "Co wybierasz?"
-  select answer in "Dodawanie" "Wyszukiwanie" "Edytowanie" "Usuwanie" "Wyjscie"
+  echo "What do you select?"
+  select answer in "Add" "Search" "Edit" "Remove" "Exit"
   do
     case $answer in
-      "Dodawanie") add; break ;;
-      "Wyszukiwanie") searchAndDisplay; break ;;   
-      "Edytowanie") editWithSearch; break ;;
-      "Usuwanie") removeWithSearch; break ;;
-      "Wyjscie") check="true"
+      "Add") add; break ;;
+      "Search") searchAndDisplay; break ;;   
+      "Edit") searchAndEdit; break ;;
+      "Remove") searchAndRemove; break ;;
+      "Exit") check="true"; break ;;
     esac
   done
 done
