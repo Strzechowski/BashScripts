@@ -1,23 +1,40 @@
 #!/usr/bin/env bash
 
 addressesFile="Adresses"
-parameterArray=("Name" "Surname" "Phone" "Email")
+parameterArray=("Name" "Surname" "Number" "Email")
 
 readFromUser() {
+  # $1 --- what user is prompted to type
+  # $2 --- pattern that should be matched by user
   echo -n "Please provide $1: " >&2
   read input
-  if [ -z "${input}" ] ; then 
+  if [ -z "${input}" ] ; then
     echo "$1 can not be empty." >&2
-    readFromUser $1
+    readFromUser $1 $2
   fi
-  echo "$input"
+
+  if ! [[ $input =~ $2  ]] ; then 
+    echo "Wrong $1 pattern. Try again." >&2
+    readFromUser $1 $2
+  else
+    echo "$input"
+  fi
 }
 
 add() {
-  name=$(readFromUser Name)
-  surname=$(readFromUser Surname)
-  number=$(readFromUser Number)
-  email=$(readFromUser Email)
+  #patterns for user input checking
+  lettersOnly='^[A-Za-z]+$'
+  numbersOnly='^[1-9]+$'
+  lettersNumbersDots='[1-9A-Za-z.]+'
+  emailPattern="^${lettersNumbersDots}@${lettersNumbersDots}$"
+
+  name=$(readFromUser "Name" "$lettersOnly")
+
+  surname=$(readFromUser "Surname" "$lettersOnly")
+
+  number=$(readFromUser "Number" "$numbersOnly")
+
+  email=$(readFromUser "Email" "$emailPattern")
 
   echo "$name $surname $number $email" >> "${addressesFile}"
 }
