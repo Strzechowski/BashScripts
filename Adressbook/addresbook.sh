@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+#global variables
 addressesFile="Adresses"
 parameterArray=("Name" "Surname" "Number" "Email")
 
@@ -74,7 +75,7 @@ remove() {
   read answer
   if [ "$answer" = "Y" ] || [ "$answer" = "y" ]; then
     sed -i "${lineToRemove}d" "${addressesFile}" 
-    echo "Usunieto" >&2
+    echo "Removed" >&2
   fi
 }
 
