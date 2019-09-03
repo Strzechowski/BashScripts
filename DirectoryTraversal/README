@@ -1,0 +1,8 @@
+Simple script for recursive printing of the directory content
+
+Usage:
+Just start the script at the directory you want to inspect
+
+To be improved:
+- There is an error when directory contains spaces
+- Should acccept command line arguments
