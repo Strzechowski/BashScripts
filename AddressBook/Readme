@@ -1,4 +1,4 @@
-Current version of the script is simple interface to manipulate the addressbook.
+Current version of the script is simple interface to manipulate the address book.
 It has 4 options in menu : 
 Add
 Edit
@@ -9,6 +9,6 @@ Further explanations are not needed. Just try using script and check the code.
 
 [FUTURE]
 Additional options to improve the script:
--disable adding someone twice to the addressbook
+-disable adding someone twice to the address book
 -add "cancel option"
 -CLI version
