@@ -1,5 +1,13 @@
-Current version of the script is simple interface to manipulate the address book.
-It has 4 options in menu : 
+Current version of the script can be used in two ways.
+
+
+OPTION 1
+-----------------------------------------------------
+
+Standard usage of the script is a simple interface to manipulate the address book.
+Just start the script without any arguments to use the interface.
+
+It has 4 options in the menu : 
 Add
 Edit
 Search
@@ -7,8 +15,35 @@ Remove
 
 Further explanations are not needed. Just try using script and check the code.
 
+
+
+OPTION 2
+-----------------------------------------------------
+
+Command line version, you can manipulate the address book directly from the terminal.
+
+How to use CLI version:
+
+Usage: ./test -i
+              -a \"Name Surname Phone Email\"
+              -r \"Name Surname\"
+              -s \"Name Surname\"
+              -h
+
+    no arguments --- turns on user interface
+              -i --- turns on user interface
+              -a --- add a person
+              -r --- remove a person by his/her name and surname
+              -s --- search a person by his/her name and surname
+              -h --- display this help window
+
+There is no edit option in CLI Version, because it would become to meesy.
+Just combine remove and add options.
+
+
+------------------------------------------------------
+
 [FUTURE]
 Additional options to improve the script:
 -disable adding someone twice to the address book
 -add "cancel option"
--CLI version
