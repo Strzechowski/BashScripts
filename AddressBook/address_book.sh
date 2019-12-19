@@ -26,8 +26,8 @@ readFromUser() {
 add() {
   #patterns for user input checking
   lettersOnly='[A-Za-z]+'
-  numbersOnly='[1-9]+'
-  lettersNumbersDots='[1-9A-Za-z.]+'
+  numbersOnly='[0-9]+'
+  lettersNumbersDots='[0-9A-Za-z.]+'
   emailPattern="${lettersNumbersDots}@${lettersNumbersDots}"
 
   if [ "$cliVersion" == "false" ] ; then
