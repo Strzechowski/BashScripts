@@ -6,12 +6,12 @@ traverse() {
 
 list="$(ls $1 --file-type)"
 
-for i in ${list}; do 
+for i in ${list}; do
   if [[ $i =~ /$ ]] ; then
     #removing the '/' at the end of directory
     echo "${2}Directory: ${i: : -1}"
     traverse "${1}/${i}" "${2}    "
-  else 
+  else
     echo "${2}File: ${i}"
   fi
 done
