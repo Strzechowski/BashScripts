@@ -165,7 +165,7 @@ searchAndRemove() {
 }
 
 searchAndDisplay() {
-  lineToDisplay=$(search $1)
+  lineToDisplay=$(search "$1")
 
   if [ -z "$lineToDisplay" ] ; then
     exit 1
